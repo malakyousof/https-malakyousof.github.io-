@@ -789,11 +789,13 @@
   </div>
 
   <form class="collab-form fade-in" style="transition-delay:0.15s" action="https://formspree.io/f/mdawzjlw" method="POST">
+    <input type="hidden" name="_next" value="https://malakyousof.github.io/portfolio#collab" />
     <input type="text" name="name" placeholder="Your Name" required />
     <input type="email" name="email" placeholder="Your Email" required />
     <input type="text" name="project_type" placeholder="Project Type (e.g. Dashboard, EDA, Report...)" />
     <textarea name="message" placeholder="Tell me about your project..."></textarea>
-    <button type="submit" class="btn-collab">Send Message →</button>
+    <button type="submit" class="btn-collab" id="submitBtn">Send Message →</button>
+    <p class="collab-note" id="successMsg" style="display:none; color:#F4B8DE; font-size:0.9rem; margin-top:10px;">✓ Message sent! I'll get back to you soon 🌸</p>
   </form>
 </section>
 
@@ -824,6 +826,34 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Formspree — stay on page after submit
+  const form = document.querySelector('.collab-form');
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        form.reset();
+        btn.textContent = '✓ Sent!';
+        btn.style.background = '#4A1040';
+        document.getElementById('successMsg').style.display = 'block';
+      } else {
+        btn.textContent = 'Try Again';
+        btn.disabled = false;
+      }
+    } catch {
+      btn.textContent = 'Try Again';
+      btn.disabled = false;
+    }
+  });
 </script>
 </body>
 </html>

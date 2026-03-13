@@ -788,13 +788,12 @@
     </p>
   </div>
 
-  <form class="collab-form fade-in" style="transition-delay:0.15s" onsubmit="handleSubmit(event)">
-    <input type="text" placeholder="Your Name" required />
-    <input type="email" placeholder="Your Email" required />
-    <input type="text" placeholder="Project Type (e.g. Dashboard, EDA, Report...)" />
-    <textarea placeholder="Tell me about your project..."></textarea>
+  <form class="collab-form fade-in" style="transition-delay:0.15s" action="https://formspree.io/f/mdawzjlw" method="POST">
+    <input type="text" name="name" placeholder="Your Name" required />
+    <input type="email" name="email" placeholder="Your Email" required />
+    <input type="text" name="project_type" placeholder="Project Type (e.g. Dashboard, EDA, Report...)" />
+    <textarea name="message" placeholder="Tell me about your project..."></textarea>
     <button type="submit" class="btn-collab">Send Message →</button>
-    <p class="collab-note">* This is a placeholder form — connect it to your email or a form service like Formspree.</p>
   </form>
 </section>
 
@@ -825,15 +824,6 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.12 });
   document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-  // Collab form placeholder
-  function handleSubmit(e) {
-    e.preventDefault();
-    const btn = e.target.querySelector('.btn-collab');
-    btn.textContent = '✓ Message Sent!';
-    btn.style.background = '#4A1040';
-    setTimeout(() => { btn.textContent = 'Send Message →'; btn.style.background = ''; }, 3000);
-  }
 </script>
 </body>
 </html>
